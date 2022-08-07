@@ -12,7 +12,7 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    hardware.raspberry-pi."4".apply-overlays-dtmerge.enable = true;
+    hardware.raspberry-pi."4".apply-overlays-dtmerge.enable = lib.mkDefault true;
 
     hardware.deviceTree = {
       overlays = [
@@ -20,7 +20,7 @@ in {
         # * https://github.com/raspberrypi/linux/blob/rpi-5.15.y/arch/arm/boot/dts/overlays/rpi-poe-overlay.dts
         # * https://github.com/raspberrypi/linux/blob/rpi-5.15.y/arch/arm/boot/dts/overlays/rpi-poe-plus-overlay.dts
         {
-          name = "rpi-poe-overlay";
+          name = "rpi-poe-plus-overlay";
           dtsText = ''
             /*
             * Overlay for the Raspberry Pi POE HAT.

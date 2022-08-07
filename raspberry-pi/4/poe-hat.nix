@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 let
-  cfg = config.hardware.raspberry-pi."4".poe-plus-hat;
+  cfg = config.hardware.raspberry-pi."4".poe-hat;
 in {
   options.hardware = {
     raspberry-pi."4".poe-hat = {
@@ -12,7 +12,7 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    hardware.raspberry-pi."4".apply-overlays-dtmerge.enable = true;
+    hardware.raspberry-pi."4".apply-overlays-dtmerge.enable = lib.mkDefault true;
 
     hardware.deviceTree = {
       overlays = [
