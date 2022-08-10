@@ -2,6 +2,9 @@
 
 let
   cfg = config.hardware.raspberry-pi."4";
+  optionalProperty = name: value: if value != null
+    then "${name} = <${builtins.toString value}>;"
+    else "";
   simple-overlay = { target, status, frequency }: {
     name = "${target}-${status}-overlay";
     dtsText = ''
@@ -13,7 +16,7 @@ let
           target = <&${target}>;
           __overlay__ {
             status = "${status}";
-            clock-frequency = <${builtins.toString frequency}>;
+            ${optionalProperty "clock-frequency" frequency}
           };
         };
       };
@@ -28,8 +31,8 @@ in
         After a reboot, i2c-tools (e.g. i2cdetect -F 22) should work for root or any user in i2c.
       '';
       frequency = lib.mkOption {
-        type = lib.types.int;
-        default = 100000;
+        type = lib.types.nullOr lib.types.int;
+        default = null;
         description = ''
           interface clock-frequency
         '';
@@ -41,8 +44,8 @@ in
         After a reboot, i2c-tools (e.g. i2cdetect -F 1) should work for root or any user in i2c.
       '';
       frequency = lib.mkOption {
-        type = lib.types.int;
-        default = 100000;
+        type = lib.types.nullOr lib.types.int;
+        default = null;
         description = ''
           interface clock-frequency
         '';
