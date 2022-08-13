@@ -2,9 +2,7 @@
 
 let
   cfg = config.hardware.raspberry-pi."4";
-  optionalProperty = name: value: if value != null
-    then "${name} = <${builtins.toString value}>;"
-    else "";
+  optionalProperty = name: value: lib.optionalString (value != null) "${name} = <${builtins.toString value}>;";
   simple-overlay = { target, status, frequency }: {
     name = "${target}-${status}-overlay";
     dtsText = ''
